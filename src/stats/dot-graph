@@ -1,0 +1,32 @@
+#!/usr/bin/env python3
+
+import argparse
+
+from collections import Counter
+
+
+def dot_print(data):
+    counts = Counter(data)
+    for k in range(min(counts), max(counts) + 1):
+        print(str(k) + "\t|" + counts[k] * "*")
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "infile",
+        help="File to read.",
+        nargs='?',
+        metavar='FILE',
+        default=sys.stdin,  
+        type=argparse.FileType('r'),
+        )
+    args = parser.parse_args()
+    infile = args.infile
+
+    data = [stats.num_from_str(l) for l in s.readlines()]
+
+    dot_print(data)
+
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,38 @@
+#!/usr/bin/env python3
+
+import argparse
+
+from collections import defaultdict
+
+import stats
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "infile",
+        help="File to read.",
+        nargs='?',
+        metavar='FILE',
+        default=sys.stdin,  
+        type=argparse.FileType('r'),
+        )
+    parser.add_argument(
+        "-l",
+        "--leaf-digits",
+        help="""Number of digits in leaves. Default to 1""",
+        action="store",
+        type=int,
+        default=1,
+        )
+
+    args = parser.parse_args()
+    infile = args.infile
+
+    data = [stats.num_from_str(l) for l in infile.readlines()]
+
+    stemleaf = stats.stem_and_leaf(data, rlen=args.leaf_digits)
+
+    stats.print_stem_and_leaf(stemleaf)
+
+if __name__ == "__main__":
+    main()

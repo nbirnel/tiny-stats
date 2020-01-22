@@ -1,0 +1,5 @@
+#!/usr/bin/awk -f
+
+BEGIN { TOTAL = 0 }
+{ TOTAL += $0 }
+END { print(TOTAL) }
