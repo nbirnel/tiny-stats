@@ -26,6 +26,5 @@ tools:
 * `stem-and-leaf` generate a stem-and-leaf graph
 * `dot-graph` generate a dot graph
 
-* `total` add a column of numbers. Should be called `sum`,
-   but that collides with Unix `sum`
+* `total` Should be called `sum`, but that collides with Unix `sum`.
 * `fill` fill blank lines with the previous value
