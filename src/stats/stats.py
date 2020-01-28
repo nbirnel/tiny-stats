@@ -1,7 +1,27 @@
 from collections import defaultdict, Counter
 from math import floor, sqrt
 
+def positive_int_from_str(string, base=0):
+    '''
+    Accept a string.
+    Return as a positive integer if possible,
+    else raise
+    '''
+    try:
+        maybe = int(string, base=base)
+    except:
+        raise ValueError
+    if abs(maybe) != maybe:
+        raise ValueError
+    return maybe
+
 def num_from_str(string, base=0):
+    '''
+    Accept a string.
+    Return as an integer if possible,
+    else as a float,
+    else raise.
+    '''
     try:
         return int(string, base=base)
     except ValueError:
