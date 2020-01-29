@@ -1,5 +1,9 @@
 from collections import defaultdict, Counter
-from math import floor, sqrt
+from math import floor, sqrt, factorial
+from functools import reduce
+import itertools
+import operator
+
 
 def positive_int_from_str(string, base=0):
     '''
@@ -147,3 +151,48 @@ def is_empirical_bell(data, statistical=False):
     Else return False
     """
     pass
+
+def permutations(integer, choose=None):
+    """
+    Accept integer (int), optionally choose (int).
+    Return number of possible permutations
+    (of size choose, if provided)
+    Implementation:
+    nPm = n!/(n-m)! = n*n-1*n-2*...n-m
+    """
+    if choose is None:
+        return factorial(integer)
+    if choose == integer:
+        return factorial(integer)
+    if choose == 0:
+        return 1
+    if choose == 1:
+        return integer
+
+    top = integer + 1
+    bottom = top - choose
+    return reduce(operator.mul, range(bottom, top))
+
+def combinations(integer, choose=None):
+    """
+    Accept integer (int), optionally choose (int).
+    Return number of possible combinations
+    (of size choose, if provided)
+    Implementation:
+    nCm = n!/(n-m)!m! = n!/m!(n-m)! = nCn-m
+    """
+    if choose is None:
+        return 1
+    if choose == integer:
+        return 1
+    if choose == 0:
+        return 1
+    if choose == 1:
+        return integer
+
+    top = integer + 1
+    diff = integer - choose
+    little_d, big_d = sorted([diff, choose])
+    numerator = reduce(operator.mul, range(big_d + 1, top))
+    denominator = factorial(little_d)
+    return int(numerator/denominator)

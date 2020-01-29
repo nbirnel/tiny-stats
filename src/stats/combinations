@@ -1,0 +1,30 @@
+#!/usr/bin/env python3
+
+import argparse
+from math import factorial
+
+import stats
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "number",
+        help="number",
+        type=stats.positive_int_from_str,
+        )
+    parser.add_argument(
+        "choose",
+        help="choose",
+        nargs='?',
+        type=stats.positive_int_from_str,
+        default=None,
+        )
+    args = parser.parse_args()
+    number = args.number
+    choose = args.choose
+
+    print(stats.combinations(number, choose))
+
+if __name__ == "__main__":
+    main()
+
