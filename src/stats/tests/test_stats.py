@@ -9,22 +9,36 @@ from hypothesis import strategies as st
 
 from stats import stats
 
-tiny_integers = st.integers(min_value=0, max_value=30)
-small_integers = st.integers(min_value=0, max_value=150)
-small_counting_integers = st.integers(min_value=1, max_value=149)
+tiny=22
+small=150
+medium=1029
+#medium=1024
+
 positive_integers = st.integers(min_value=0)
 counting_integers = st.integers(min_value=1)
+tiny_integers = st.integers(min_value=0, max_value=tiny)
+tiny_counting_integers = st.integers(min_value=1, max_value=tiny-1)
+small_integers = st.integers(min_value=0, max_value=small)
+small_counting_integers = st.integers(min_value=1, max_value=small-1)
+medium_integers = st.integers(min_value=0, max_value=medium)
+medium_counting_integers = st.integers(min_value=1, max_value=medium-1)
 # Tuples of integers with one bigger than the other:
 # (72, 1), (9999, 543), (6,5)
 sorted_pairs = st.tuples(
     positive_integers, counting_integers
     ).map(lambda x: sorted(x, reverse=True))
 
+tiny_sorted_pairs = st.tuples(
+    tiny_integers, tiny_counting_integers
+    ).map(lambda x: sorted(x, reverse=True))
+
 small_sorted_pairs = st.tuples(
     small_integers, small_counting_integers
     ).map(lambda x: sorted(x, reverse=True))
 
-
+medium_sorted_pairs = st.tuples(
+    medium_integers, medium_counting_integers
+    ).map(lambda x: sorted(x, reverse=True))
 
 @given(text=st.text(alphabet=ascii_letters))
 def test_num_from_str_text(text):
@@ -57,9 +71,6 @@ def test_positive_int_from_str_float(my_float):
 def test_positive_int_from_str_there_and_back(integer):
     returned_int = stats.positive_int_from_str(str(integer))
     assert returned_int == integer
-
-
-
 
 @pytest.mark.slow
 @given(integer=positive_integers)
@@ -100,6 +111,17 @@ def test_permutations_there_and_back(two_ints):
 
     assert round(and_back) == 1
 
+@pytest.mark.slow
+@given(two_ints=tiny_sorted_pairs)
+def test_permutations_versus_reference_implementation(two_ints):
+    num = two_ints[0]
+    choose = two_ints[1]
+
+    result = stats.permutations(num, choose=choose)
+    reference = stats._permutations_reference(num, choose=choose)
+    assert result == reference
+
+
 
 
 @given(integer=positive_integers)
@@ -131,3 +153,13 @@ def test_combinations_invert_n_m(two_ints):
     n_choose_n_minus_m = stats.combinations(num, choose=num-choose)
 
     assert n_choose_m == n_choose_n_minus_m
+
+@pytest.mark.slow
+@given(two_ints=medium_sorted_pairs)
+def test_combinations_versus_reference_implementation(two_ints):
+    num = two_ints[0]
+    choose = two_ints[1]
+
+    result = stats.combinations(num, choose=choose)
+    reference = stats._combinations_reference(num, choose=choose)
+    assert result == reference

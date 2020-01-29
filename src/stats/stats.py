@@ -152,6 +152,32 @@ def is_empirical_bell(data, statistical=False):
     """
     pass
 
+def _permutations_reference(integer, choose=None):
+    """
+    The reference implementation of permutations,
+    'correct' by definition -
+    but suffers float inaccuracies at about 30 choose 15.
+    Intended for testing comparison.
+
+    Accept integer (int), optionally choose (int).
+    Return number of possible permutations
+    (of size choose, if provided)
+    Implementation:
+    nPm = n!/(n-m)!
+    """
+    if choose is None:
+        return factorial(integer)
+    if choose == integer:
+        return factorial(integer)
+    if choose == 0:
+        return 1
+    if choose == 1:
+        return integer
+    return int(
+        factorial(integer) / factorial(integer - choose)
+        )
+
+
 def permutations(integer, choose=None):
     """
     Accept integer (int), optionally choose (int).
@@ -172,6 +198,31 @@ def permutations(integer, choose=None):
     top = integer + 1
     bottom = top - choose
     return reduce(operator.mul, range(bottom, top))
+
+def _combinations_reference(integer, choose=None):
+    """
+    The reference implementation of combinations,
+    'correct' by definition -
+    but suffers float inaccuracies at 1030 choose 500
+    Intended for testing comparison.
+
+    Accept integer (int), optionally choose (int).
+    Return number of possible combinations
+    (of size choose, if provided)
+    Implementation:
+    nPm = n!/(n-m)!
+    """
+    if choose is None:
+        return 1
+    if choose == integer:
+        return 1
+    if choose == 0:
+        return 1
+    if choose == 1:
+        return integer
+    return int(
+        factorial(integer) / (factorial(integer - choose) * factorial(choose))
+        )
 
 def combinations(integer, choose=None):
     """
