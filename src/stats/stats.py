@@ -1,16 +1,15 @@
 from collections import defaultdict, Counter
 from math import floor, sqrt, factorial
 from functools import reduce
-import itertools
 import operator
 
 
 def positive_int_from_str(string, base=0):
-    '''
+    """
     Accept a string.
     Return as a positive integer if possible,
     else raise
-    '''
+    """
     try:
         maybe = int(string, base=base)
     except:
@@ -19,17 +18,19 @@ def positive_int_from_str(string, base=0):
         raise ValueError
     return maybe
 
+
 def num_from_str(string, base=0):
-    '''
+    """
     Accept a string.
     Return as an integer if possible,
     else as a float,
     else raise.
-    '''
+    """
     try:
         return int(string, base=base)
     except ValueError:
         return float(string)
+
 
 def stem_and_leaf(data, rlen=1):
     """
@@ -113,12 +114,14 @@ def deviations(data):
     mu = mean(data)
     return [val - mu for val in data]
 
+
 def sum_of_squares_of_deviations(data):
     """
     Accept data (list of x), optionally statistical (bool).
     Return SS sub x "sum of squares":  Σ(x-μ)²
     """
     return sum([x ** 2 for x in deviations(data)])
+
 
 def variance(data, is_sample=True):
     """
@@ -144,13 +147,14 @@ def is_empirical_bell(data, statistical=False):
     """
     #FIXME not implemented
     Accept data (list of x), optionally statistical (bool)
-    Return True if 
+    Return True if
     68% within 1 standard deviation of mean AND
     95% within 2 standard deviations of mean AND
     99.7% within 3 standard deviations of mean.
     Else return False
     """
     pass
+
 
 def _permutations_reference(integer, choose=None):
     """
@@ -173,9 +177,7 @@ def _permutations_reference(integer, choose=None):
         return 1
     if choose == 1:
         return integer
-    return int(
-        factorial(integer) / factorial(integer - choose)
-        )
+    return int(factorial(integer) / factorial(integer - choose))
 
 
 def permutations(integer, choose=None):
@@ -198,6 +200,7 @@ def permutations(integer, choose=None):
     top = integer + 1
     bottom = top - choose
     return reduce(operator.mul, range(bottom, top))
+
 
 def _combinations_reference(integer, choose=None):
     """
@@ -222,7 +225,8 @@ def _combinations_reference(integer, choose=None):
         return integer
     return int(
         factorial(integer) / (factorial(integer - choose) * factorial(choose))
-        )
+    )
+
 
 def combinations(integer, choose=None):
     """
@@ -246,4 +250,4 @@ def combinations(integer, choose=None):
     little_d, big_d = sorted([diff, choose])
     numerator = reduce(operator.mul, range(big_d + 1, top))
     denominator = factorial(little_d)
-    return int(numerator/denominator)
+    return int(numerator / denominator)
