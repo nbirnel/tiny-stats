@@ -9,10 +9,9 @@ from hypothesis import strategies as st
 
 from stats import stats
 
-tiny=22
-small=150
-medium=1029
-#medium=1024
+tiny=22        # see stats._permutations_reference
+small=150      # small enough to not take a long time on combinatorics
+medium=1029    # see stats._combinations_reference
 
 positive_integers = st.integers(min_value=0)
 counting_integers = st.integers(min_value=1)

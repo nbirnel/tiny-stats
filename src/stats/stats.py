@@ -160,7 +160,8 @@ def _permutations_reference(integer, choose=None):
     """
     The reference implementation of permutations,
     'correct' by definition -
-    but suffers float inaccuracies at about 30 choose 15.
+    but suffers float inaccuracies at 23 choose 19,
+    and is slow.
     Intended for testing comparison.
 
     Accept integer (int), optionally choose (int).
@@ -186,7 +187,7 @@ def permutations(integer, choose=None):
     Return number of possible permutations
     (of size choose, if provided)
     Implementation:
-    nPm = n!/(n-m)! = n*n-1*n-2*...n-m
+    nPm = n!/(n-m)! = n*(n-1)*(n-2)*...(n-m+1)
     """
     if choose is None:
         return factorial(integer)
@@ -206,7 +207,8 @@ def _combinations_reference(integer, choose=None):
     """
     The reference implementation of combinations,
     'correct' by definition -
-    but suffers float inaccuracies at 1030 choose 500
+    but suffers float inaccuracies at 1030 choose 500,
+    and is slow.
     Intended for testing comparison.
 
     Accept integer (int), optionally choose (int).
